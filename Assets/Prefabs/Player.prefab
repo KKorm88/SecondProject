@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 8923348684595921016}
   - component: {fileID: 5950702333389208731}
   - component: {fileID: 3607283418483538641}
+  - component: {fileID: 5486027537429871915}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -262,8 +263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1
   _maxRadiansDelta: 10
-  _accelerationCoefficient: 2
-  _maxSpeed: 10
 --- !u!114 &8923348684595921016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseWeaponPrefab: {fileID: -8101768235340190401, guid: bae12d3e1da623f49b8b479033b5194a, type: 3}
   _hand: {fileID: 8703183452210181}
-  _health: 6
+  _health: 2
 --- !u!143 &5950702333389208731
 CharacterController:
   m_ObjectHideFlags: 0
@@ -317,3 +316,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebae1a1309872324088a4fc56f8d0507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5486027537429871915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8593900073210325714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4082bd88e8363d643bfc6254f922b8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _accelerationCoefficient: 2
+  _maxSpeed: 8

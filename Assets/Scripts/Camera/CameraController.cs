@@ -6,8 +6,10 @@ namespace SecondProject.Camera
     public class CameraController : MonoBehaviour
     {
         [SerializeField]
+        [Tooltip("Перемещение камеры по координатам")]
         private Vector3 _followCameraOffset = Vector3.zero;
         [SerializeField]
+        [Tooltip("Поворот камеры")]
         private Vector3 _rotationOffset = Vector3.zero;
 
         [SerializeField]
@@ -21,10 +23,13 @@ namespace SecondProject.Camera
 
         protected void LateUpdate()
         {
-            Vector3 targetRotation = _rotationOffset - _followCameraOffset;
+            if (_player != null)
+            {
+                Vector3 targetRotation = _rotationOffset - _followCameraOffset;
 
-            transform.position = _player.transform.position + _followCameraOffset;
-            transform.rotation = Quaternion.LookRotation(targetRotation, Vector3.up);
+                transform.position = _player.transform.position + _followCameraOffset;
+                transform.rotation = Quaternion.LookRotation(targetRotation, Vector3.up);
+            }
         }
     }
 }

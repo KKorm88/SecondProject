@@ -1,4 +1,5 @@
 using SecondProject.Movement;
+using SecondProject.PickUp;
 using SecondProject.Shooting;
 using UnityEngine;
 
@@ -6,16 +7,19 @@ namespace SecondProject
 {
     [RequireComponent(typeof(CharacterMovementController), typeof(ShootingController))]
 
-    public class BaseCharacter : MonoBehaviour
+    public abstract class BaseCharacter : MonoBehaviour
     {
 
         [SerializeField]
+        [Tooltip("Префаб «базового» оружия")]
         private Weapon _baseWeaponPrefab;
 
         [SerializeField]
+        [Tooltip("Точка «руки», куда будет помещено оружие")]
         private Transform _hand;
 
         [SerializeField]
+        [Tooltip("Значение жизни")]
         private float _health = 2f;
 
         private IMovementDirectionSource _movementDirectionSource;
@@ -33,7 +37,7 @@ namespace SecondProject
 
         protected void Start()
         {
-            _shootingController.SetWeapon(_baseWeaponPrefab, _hand);
+            SetWeapon(_baseWeaponPrefab);
         }
 
         protected void Update()
@@ -62,6 +66,18 @@ namespace SecondProject
 
                 Destroy(other.gameObject);
             }
+            else if (LayerUtils.IsPickUp(other.gameObject))
+            {
+                var pickUp = other.gameObject.GetComponent<PickUpWeapon>();
+                pickUp.PickUp(this);
+
+                Destroy(other.gameObject);
+            }
+        }
+
+        public void SetWeapon(Weapon weapon)
+        {
+            _shootingController.SetWeapon(weapon, _hand);
         }
     } 
 }
