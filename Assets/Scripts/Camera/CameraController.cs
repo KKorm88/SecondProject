@@ -8,6 +8,7 @@ namespace SecondProject.Camera
         [SerializeField]
         [Tooltip("Перемещение камеры по координатам")]
         private Vector3 _followCameraOffset = Vector3.zero;
+
         [SerializeField]
         [Tooltip("Поворот камеры")]
         private Vector3 _rotationOffset = Vector3.zero;
@@ -26,10 +27,14 @@ namespace SecondProject.Camera
             if (_player != null)
             {
                 Vector3 targetRotation = _rotationOffset - _followCameraOffset;
-
                 transform.position = _player.transform.position + _followCameraOffset;
                 transform.rotation = Quaternion.LookRotation(targetRotation, Vector3.up);
             }
+        }
+
+        public void AssignPlayer(PlayerCharacter player)
+        {
+            _player = player;
         }
     }
 }

@@ -6,6 +6,7 @@ namespace SecondProject.PickUp
     public class PickUpWeapon : PickUpItem
     {
         [SerializeField]
+        [Tooltip("Префаб подбираемого оружия")]
         private Weapon _weaponPrefab;
 
         public override void PickUp(BaseCharacter character)

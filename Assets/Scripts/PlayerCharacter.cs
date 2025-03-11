@@ -1,5 +1,5 @@
+using SecondProject.AccelerationBonus;
 using SecondProject.Movement;
-using SecondProject.Shooting;
 using UnityEngine;
 
 namespace SecondProject

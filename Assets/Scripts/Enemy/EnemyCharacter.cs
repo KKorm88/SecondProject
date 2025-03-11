@@ -1,9 +1,8 @@
-using SecondProject.Movement;
 using UnityEngine;
 
-namespace SecondProject
+namespace SecondProject.Enemy
 {
-    [RequireComponent(typeof(DummyDirectionalController))]
+    [RequireComponent(typeof(EnemyDirectionController), typeof(EnemyAiController), typeof(EnemyAccelerationController))]
 
     public class EnemyCharacter : BaseCharacter
     {
