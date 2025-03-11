@@ -19,42 +19,43 @@ namespace SecondProject.Movement
         public Vector3 LookDirection { get; set; }
 
         private CharacterController _characterController;
-
-        //Текущая скорость
         private float _currentSpeed;
 
-        //Получение текущей скорости
         public float CurrentSpeed => _currentSpeed;
-        //Получение начальной скорости
         public float InitialSpeed => _speed;
 
         protected void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            //Смотрим текущую скорость
             _currentSpeed = _speed;
         }
 
         protected void Update()
         {
-            //Смотрим есть ли ускорение
-            //InputForAcceleration();
-
             Translate();
 
             if (_maxRadiansDelta > 0f && LookDirection != Vector3.zero)
                 Rotate();
         }
         
-        public void SetSpeed(float speed)//
+        public void SetSpeed(float speed)
         {
-            _currentSpeed = speed;//
+            _currentSpeed = speed;
         }
 
         private void Translate()
         {
-            //Дельта, на которую передвигаемся за кадр
-            var delta = MovementDirection * _currentSpeed * Time.deltaTime;
+            float totalSpeed = _currentSpeed;
+            var speedModifiers = GetComponents<ISpeedModifier>();
+            foreach (var modifier in speedModifiers)
+            {
+                if (modifier.IsActive())
+                {
+                    totalSpeed += modifier.GetSpeedMultiplier();
+                }
+            }
+
+            var delta = MovementDirection * totalSpeed * Time.deltaTime;
             _characterController.Move(delta);
         }
 

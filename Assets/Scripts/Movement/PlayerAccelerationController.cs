@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SecondProject.AccelerationBonus;
+using UnityEngine;
 
 namespace SecondProject.Movement
 {
@@ -8,17 +9,19 @@ namespace SecondProject.Movement
         [SerializeField]
         [Tooltip("Коэффициент ускорения")]
         private float _accelerationCoefficient = 2f;
+
         [SerializeField]
         [Tooltip("Максимальная скорость")]
         private float _maxSpeed = 8f;
 
-        private float _newSpeed;
-
         private CharacterMovementController _characterMovementController;
-        
+        private bool _isAccelerating;
+        private SpeedBoosterController _speedBoosterController;
+
         protected void Awake()
         {
             _characterMovementController = GetComponent<CharacterMovementController>();
+            _speedBoosterController = GetComponent<SpeedBoosterController>();
         }
 
         protected void Update()
@@ -28,22 +31,37 @@ namespace SecondProject.Movement
 
         private void InputForAcceleration()
         {
-            //Смотрим нажат ли пробел
             if (Input.GetKey(KeyCode.Space))
             {
-                //Увеличиваем скорость
-                _newSpeed = _characterMovementController.CurrentSpeed + _accelerationCoefficient * Time.deltaTime;
-                //Ограничиваем скорость
-                if (_newSpeed > _maxSpeed)
-                    _newSpeed = _maxSpeed;
-
-                _characterMovementController.SetSpeed(_newSpeed);
+                _isAccelerating = true;
             }
             else
             {
-                //Сбрасываем скорость
-                _characterMovementController.SetSpeed(_characterMovementController.InitialSpeed);
+                if (!_speedBoosterController.IsActive())
+                {
+                    _isAccelerating = false;
+                    _characterMovementController.SetSpeed(_characterMovementController.InitialSpeed);
+                }
             }
+
+            if (_isAccelerating)
+            {
+                float newSpeed = _characterMovementController.CurrentSpeed + _accelerationCoefficient * Time.deltaTime;
+                if (newSpeed > _maxSpeed)
+                    newSpeed = _maxSpeed;
+
+                _characterMovementController.SetSpeed(newSpeed);
+            }
+        }
+
+        public float GetSpeedMultiplier()
+        {
+            return _accelerationCoefficient;
+        }
+
+        public bool IsActive()
+        {
+            return _isAccelerating;
         }
     }
 }

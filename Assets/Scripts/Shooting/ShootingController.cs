@@ -29,7 +29,6 @@ namespace SecondProject.Shooting
 
         public void SetWeapon(Weapon weaponPrefab, Transform hand)
         {
-
             if (_weapon != null)
                 Destroy(_weapon.gameObject);
 

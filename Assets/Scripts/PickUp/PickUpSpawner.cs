@@ -6,7 +6,7 @@ namespace SecondProject.PickUp
     public class PickUpSpawner : MonoBehaviour
     {
         [SerializeField]
-        [Tooltip("Префаб спавн-оружия")]
+        [Tooltip("Префаб спавн")]
         private PickUpItem _pickUpPrefab;
 
         [SerializeField]
@@ -17,26 +17,21 @@ namespace SecondProject.PickUp
         [Tooltip("Максимальное количество предметов, которые могут быть заспавнены внутри зоны")]
         private int _maxCount = 2;
 
-        //[SerializeField]
-        //[Tooltip("Время до следующего спавна предмета")]
-        //private float _spawnIntervalSeconds = 10f;
-        //
         [SerializeField]
         [Tooltip("Минимальное время до следующего спавна предмета")]
         private float _minSpawnIntervalSeconds = 2f;
+
         [SerializeField]
         [Tooltip("Максимальное время до следующего спавна предмета")]
         private float _maxSpawnIntervalSeconds = 10f;
-        //
+        
         private float _currentSpawnTimerSeconds;
         private int _currentCount;
 
-        // Для случайного значение интервала спавна
         private float _currentSpawnIntervalSeconds;
-        //
+        
         protected void Start()
         {
-            //Устанавливаем начальный интервал спавна
             SetRandomSpawnInterval();
         }
 
@@ -45,7 +40,7 @@ namespace SecondProject.PickUp
             if (_currentCount < _maxCount)
             {
                 _currentSpawnTimerSeconds += Time.deltaTime;
-                //if (_currentSpawnTimerSeconds > _spawnIntervalSeconds)
+
                 if (_currentSpawnTimerSeconds > _currentSpawnIntervalSeconds)
                 {
                     _currentSpawnTimerSeconds = 0f;
@@ -58,7 +53,6 @@ namespace SecondProject.PickUp
                     var pickUp = Instantiate(_pickUpPrefab, randomPosition, Quaternion.identity, transform);
                     pickUp.OnPickedUp += OnItemPickedUp;
 
-                    //Новый случайный интервал спавна
                     SetRandomSpawnInterval();
                 }
             }
