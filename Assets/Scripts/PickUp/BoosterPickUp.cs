@@ -2,6 +2,8 @@
 
 namespace SecondProject.PickUp
 {
+    [RequireComponent(typeof(MovingItem))]
+
     public class BoosterPickUp : PickUpItem
     {
         [SerializeField]

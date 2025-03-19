@@ -1,3 +1,4 @@
+using System.Collections;
 using SecondProject.AccelerationBonus;
 using SecondProject.Movement;
 using SecondProject.PickUp;
@@ -22,6 +23,10 @@ namespace SecondProject
         [Tooltip("Значение жизни")]
         private float _health = 2f;
 
+        [SerializeField]
+        [Tooltip("Аниматор")]
+        private Animator _animator;
+
         private float _maxHealth;
         private Weapon _currentWeapon;
         public float CurrentHealth => _health;
@@ -33,6 +38,8 @@ namespace SecondProject
         private ShootingController _shootingController;
         private SpeedBoosterController _speedBoosterController;
         private CharacterSpawner _characterSpawner;
+
+        private bool _isDead = false;
 
         protected void Awake()
         {
@@ -52,6 +59,9 @@ namespace SecondProject
 
         protected void Update()
         {
+            if (_isDead) 
+                return;
+
             var direction = _movementDirectionSource.MovementDirection;
             var lookDirection = direction;
             if (_shootingController.HasTarget)
@@ -60,23 +70,48 @@ namespace SecondProject
             _characterMovementController.MovementDirection = direction;
             _characterMovementController.LookDirection = lookDirection;
 
+            _animator.SetBool("IsMoving", direction != Vector3.zero);
+            _animator.SetBool("IsShooting", _shootingController.HasTarget);
+
             if (_health <= 0f)
             {
-                if (LayerUtils.IsPlayer(gameObject))
+                RetireLife();
+            }
+        }
+
+        private void RetireLife()
+        {
+            _isDead = true;
+            _animator.SetBool("IsDeath", true);
+
+            _characterMovementController.enabled = false;
+            _shootingController.enabled = false;
+
+            if (LayerUtils.IsPlayer(gameObject))
+            {
+                PlayerAndEnemyStatus.StatusPlayerSpawned = false;
+            }
+            if (LayerUtils.IsEnemy(gameObject))
+            {
+                PlayerAndEnemyStatus.StatusEnemySpawned = false;
+                if (_characterSpawner != null)
                 {
-                    PlayerAndEnemyStatus.StatusPlayerSpawned = false;
+                    _characterSpawner.DecreaseEnemyCount();
                 }
-                if (LayerUtils.IsEnemy(gameObject))
-                {
-                    PlayerAndEnemyStatus.StatusEnemySpawned = false;
-                    if (_characterSpawner != null)
-                    {
-                        _characterSpawner.DecreaseEnemyCount();
-                    }
-                }
-                Destroy(gameObject);
             }
 
+            StartCoroutine(WaitForDeathAnimation());
+        }
+
+        private IEnumerator WaitForDeathAnimation()
+        {
+            while (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+            Destroy(gameObject);
         }
 
         protected void OnTriggerEnter(Collider other)
