@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace SecondProject.PickUp
 {
+    [RequireComponent(typeof(MovingItem))]
+
     public class PickUpWeapon : PickUpItem
     {
         [SerializeField]
