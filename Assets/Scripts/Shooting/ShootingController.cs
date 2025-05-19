@@ -21,7 +21,10 @@ namespace SecondProject.Shooting
             if (_nextShotTimerSec < 0)
             {
                 if (HasTarget)
+                {
+                    _weapon.SetOwner(gameObject);
                     _weapon.Shoot(TargetPosition);
+                }
 
                 _nextShotTimerSec = _weapon.ShootFrequencySec;
             }

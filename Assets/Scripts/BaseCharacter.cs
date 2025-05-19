@@ -4,13 +4,17 @@ using SecondProject.Movement;
 using SecondProject.PickUp;
 using SecondProject.Shooting;
 using UnityEngine;
+using System;
 
 namespace SecondProject
 {
+    
     [RequireComponent(typeof(CharacterMovementController), typeof(ShootingController), typeof(SpeedBoosterController))]
 
     public abstract class BaseCharacter : MonoBehaviour
     {
+        public event Action<BaseCharacter> Dead;
+
         [SerializeField]
         [Tooltip("Префаб «базового» оружия")]
         private Weapon _baseWeaponPrefab;
@@ -40,6 +44,10 @@ namespace SecondProject
         private CharacterSpawner _characterSpawner;
 
         private bool _isDead = false;
+
+        private string _bulletOwnerName;
+        public string _lastBulletOwner;
+        public string LastBulletOwner => _lastBulletOwner;
 
         protected void Awake()
         {
@@ -75,6 +83,9 @@ namespace SecondProject
 
             if (_health <= 0f)
             {
+                _lastBulletOwner = _bulletOwnerName;
+
+                Dead?.Invoke(this);
                 RetireLife();
             }
         }
@@ -100,6 +111,7 @@ namespace SecondProject
                 }
             }
 
+
             StartCoroutine(WaitForDeathAnimation());
         }
 
@@ -119,6 +131,8 @@ namespace SecondProject
             if (LayerUtils.IsBullet(other.gameObject))
             {
                 var bullet = other.gameObject.GetComponent<Bullet>();
+
+                _bulletOwnerName = bullet.Owner.name;
 
                 _health -= bullet.Damage;
 

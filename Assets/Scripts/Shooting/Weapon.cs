@@ -4,6 +4,8 @@ namespace SecondProject.Shooting
 {
     public class Weapon : MonoBehaviour
     {
+        private GameObject _weaponOwner;
+
         [field: SerializeField]
         public Bullet BulletPrefab { get; private set; }
         [field: SerializeField]
@@ -29,6 +31,12 @@ namespace SecondProject.Shooting
         [Tooltip("Точка «спавна» пули из оружия")]
         private Transform _bulletSpawnPosition;
 
+        public GameObject SetOwner(GameObject owner)
+        {
+            _weaponOwner = owner;
+            return _weaponOwner;
+        }
+
         public void Shoot(Vector3 targetPoint)
         {
             var bullet = Instantiate(BulletPrefab, _bulletSpawnPosition.position, Quaternion.identity);
@@ -37,7 +45,8 @@ namespace SecondProject.Shooting
             target.y = 0;
             target.Normalize();
 
-            bullet.Initialize(target, _bulletMaxFlyDistance, _bulletFlySpeed, _damage);
+            bullet.Initialize(target, _bulletMaxFlyDistance, _bulletFlySpeed, _damage, _weaponOwner);
+
         }
     }
 }

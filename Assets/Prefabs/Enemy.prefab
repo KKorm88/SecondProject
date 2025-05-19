@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: 1246699701774976974}
   - component: {fileID: 8939797183215163930}
   - component: {fileID: 1124945729101021277}
+  - component: {fileID: 9006198131138858081}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -639,8 +640,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseWeaponPrefab: {fileID: -8101768235340190401, guid: bae12d3e1da623f49b8b479033b5194a, type: 3}
   _hand: {fileID: 4699208373032756804}
-  _health: 20
+  _health: 5
   _animator: {fileID: 1124945729101021277}
+  _lastBulletOwner: 
 --- !u!114 &7621948414598138946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +717,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9006198131138858081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3990416784551595652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da75759d066e8d3409fdad733d084ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 8956101662688821527, guid: caa95d9d76929d746b8a8d04384eac85, type: 3}
 --- !u!1 &3992683200652710674
 GameObject:
   m_ObjectHideFlags: 0

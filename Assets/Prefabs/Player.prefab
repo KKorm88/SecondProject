@@ -1525,6 +1525,7 @@ GameObject:
   - component: {fileID: 5486027537429871915}
   - component: {fileID: 70863773367287376}
   - component: {fileID: 1432610231972024772}
+  - component: {fileID: 5483044614000945641}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1639,8 +1640,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseWeaponPrefab: {fileID: -8101768235340190401, guid: bae12d3e1da623f49b8b479033b5194a, type: 3}
   _hand: {fileID: 8703183452210181}
-  _health: 50
+  _health: 20
   _animator: {fileID: 1432610231972024772}
+  _lastBulletOwner: 
 --- !u!143 &5950702333389208731
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1726,6 +1728,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5483044614000945641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8593900073210325714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da75759d066e8d3409fdad733d084ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 8956101662688821527, guid: caa95d9d76929d746b8a8d04384eac85, type: 3}
 --- !u!1 &8594961114933092103
 GameObject:
   m_ObjectHideFlags: 0
