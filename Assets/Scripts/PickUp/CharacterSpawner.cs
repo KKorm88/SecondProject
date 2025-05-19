@@ -1,4 +1,5 @@
 ﻿using SecondProject.Camera;
+using SecondProject.Enemy;
 using UnityEditor;
 using UnityEngine;
 
@@ -49,6 +50,12 @@ namespace SecondProject.PickUp
             {
                 _currentSpawnTimerSeconds = 0f;
 
+                var gameManager = FindObjectOfType<GameManager>();
+                if (gameManager != null && !gameManager.IsGameActive)
+                {
+                    return;
+                }
+
                 if (!PlayerAndEnemyStatus.StatusPlayerSpawned && Random.value < 0.5f)
                 {
                     SpawnPlayer();
@@ -68,7 +75,6 @@ namespace SecondProject.PickUp
             }
         }
 
-
         private void SetRandomSpawnInterval()
         {
             _currentSpawnIntervalSeconds = Random.Range(_minSpawnIntervalSeconds, _maxSpawnIntervalSeconds);
@@ -82,6 +88,9 @@ namespace SecondProject.PickUp
             GameObject playerObject = Instantiate(_playerPrefab, randomPosition, Quaternion.identity, transform);
 
             PlayerCharacter playerCharacter = playerObject.GetComponent<PlayerCharacter>();
+
+            SceneEvents.NotifyPlayerSpawned(playerCharacter);
+
             if (playerCharacter != null && _cameraController != null)
             {
                 _cameraController.AssignPlayer(playerCharacter);
@@ -92,8 +101,17 @@ namespace SecondProject.PickUp
         {
             var randomPointInsideRange = Random.insideUnitSphere * _range;
             var randomPosition = new Vector3(randomPointInsideRange.x, 1f, randomPointInsideRange.z) + transform.position;
-
-            Instantiate(_enemyPrefab, randomPosition, Quaternion.identity, transform);
+            //Instantiate(_enemyPrefab, randomPosition, Quaternion.identity, transform);
+            GameObject enemyObject = Instantiate(_enemyPrefab, randomPosition, Quaternion.identity, transform);
+            EnemyCharacter enemyCharacter = enemyObject.GetComponent<EnemyCharacter>();
+            if (enemyCharacter != null)
+            {
+                var gameManager = FindObjectOfType<GameManager>();
+                if (gameManager != null)
+                {
+                    gameManager.RegisterEnemy(enemyCharacter);
+                }
+            }
         }
 
         protected void OnDrawGizmos()

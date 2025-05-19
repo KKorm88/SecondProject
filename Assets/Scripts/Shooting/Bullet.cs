@@ -5,18 +5,21 @@ namespace SecondProject.Shooting
     public class Bullet : MonoBehaviour
     {
         public float Damage { get; private set; }
-        
+
+        public GameObject Owner { get; private set; }
+
         private Vector3 _direction;
         private float _flySpeed;
         private float _maxFlyDistance;
         private float _currentFlyDistance;
 
-        public void Initialize(Vector3 direction, float maxFlyDistance, float flySpeed, float damage)
+        public void Initialize(Vector3 direction, float maxFlyDistance, float flySpeed, float damage, GameObject owner)
         {
             _direction = direction;
             _maxFlyDistance = maxFlyDistance;
             _flySpeed = flySpeed;
             Damage = damage;
+            Owner = owner;
         }
 
         protected void Update()
@@ -28,5 +31,6 @@ namespace SecondProject.Shooting
             if (_currentFlyDistance >= _maxFlyDistance)
                 Destroy(gameObject);
         }
+
     }
 }
