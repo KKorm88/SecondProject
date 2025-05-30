@@ -7,6 +7,9 @@ namespace SecondProject
         [SerializeField]
         private GameManager _gameManager;
 
+        [SerializeField]
+        private AudioSource _openSound;
+
         void Start()
         {
             _gameManager.Loss += ShowPanel;
@@ -16,6 +19,7 @@ namespace SecondProject
         private void ShowPanel()
         {
             gameObject.SetActive(true);
+            _openSound.Play();
         }
     }
 }

@@ -12,9 +12,15 @@ namespace SecondProject.AccelerationBonus
         private float _boosterEffectEndTime;
         private bool _isActive;
 
+        [SerializeField]
+        [Tooltip("Эффект частиц бустера")]
+        private ParticleSystem _boosterParticles;
+
         private void Awake()
         {
             _characterMovementController = GetComponent<CharacterMovementController>();
+
+            _boosterParticles.Stop();
         }
 
         private void Update()
@@ -45,12 +51,16 @@ namespace SecondProject.AccelerationBonus
             _accelerationCoefficient = accelerationCoefficient;
             _maxSpeed = maxSpeed;
             _isActive = true;
+
+            _boosterParticles.Play();
         }
 
         private void DisableBooster()
         {
             _characterMovementController.SetSpeed(_characterMovementController.InitialSpeed);
             _isActive = false;
+
+            _boosterParticles.Stop();
         }
 
         public float GetSpeedMultiplier()
