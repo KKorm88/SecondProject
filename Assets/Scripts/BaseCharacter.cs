@@ -31,6 +31,18 @@ namespace SecondProject
         [Tooltip("јниматор")]
         private Animator _animator;
 
+        [SerializeField]
+        [Tooltip("Ёффект частиц попадани€")]
+        private ParticleSystem _hitParticles;
+
+        [SerializeField]
+        [Tooltip("Ёффект частиц смерти")]
+        private ParticleSystem _deathParticles;
+
+        [SerializeField]
+        [Tooltip("јудио источник дл€ звука смерти")]
+        private AudioSource _deathAudioSource;
+
         private float _maxHealth;
         private Weapon _currentWeapon;
         public float CurrentHealth => _health;
@@ -46,7 +58,7 @@ namespace SecondProject
         private bool _isDead = false;
 
         private string _bulletOwnerName;
-        public string _lastBulletOwner;
+        private string _lastBulletOwner;
         public string LastBulletOwner => _lastBulletOwner;
 
         protected void Awake()
@@ -84,6 +96,10 @@ namespace SecondProject
             if (_health <= 0f)
             {
                 _lastBulletOwner = _bulletOwnerName;
+
+                _deathParticles.Play();
+
+                _deathAudioSource.Play();
 
                 Dead?.Invoke(this);
                 RetireLife();
@@ -133,6 +149,8 @@ namespace SecondProject
                 var bullet = other.gameObject.GetComponent<Bullet>();
 
                 _bulletOwnerName = bullet.Owner.name;
+
+                _hitParticles.Play();
 
                 _health -= bullet.Damage;
 

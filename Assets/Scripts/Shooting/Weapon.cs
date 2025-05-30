@@ -31,6 +31,14 @@ namespace SecondProject.Shooting
         [Tooltip("Точка «спавна» пули из оружия")]
         private Transform _bulletSpawnPosition;
 
+        [SerializeField]
+        [Tooltip("Частицы выстрела")]
+        private ParticleSystem _shootParticle;
+
+        [SerializeField]
+        [Tooltip("Звук выстрела")]
+        private AudioSource _shootAudio;
+
         public GameObject SetOwner(GameObject owner)
         {
             _weaponOwner = owner;
@@ -40,6 +48,9 @@ namespace SecondProject.Shooting
         public void Shoot(Vector3 targetPoint)
         {
             var bullet = Instantiate(BulletPrefab, _bulletSpawnPosition.position, Quaternion.identity);
+
+            _shootParticle.Play();
+            _shootAudio.Play();
 
             var target = targetPoint - _bulletSpawnPosition.position;
             target.y = 0;

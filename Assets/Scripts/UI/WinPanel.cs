@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,6 +8,9 @@ namespace SecondProject
         [SerializeField]
         private GameManager _gameManager;
 
+        [SerializeField]
+        private AudioSource _openSound;
+
         void Start()
         {
             _gameManager.Win += ShowPanel;
@@ -19,6 +20,7 @@ namespace SecondProject
         private void ShowPanel()
         {
             gameObject.SetActive(true);
+            _openSound.Play();
         }
 
     }
